@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProEventos.Api.Data;
 using ProEventos.Api.Models;
 using System;
 using System.Collections.Generic;
@@ -10,43 +11,11 @@ namespace ProEventos.Api.Controllers
     [Route("api/[controller]")]
     public class EventoController : ControllerBase
     {
+        public DataContext DataContext { get; set; }
 
-        public IEnumerable<Evento> Eventos = new Evento[]{
-            new Evento()
-                {
-                    EventoId = 1,
-                    Tema = "Tema 1",
-                    Local = "Local 1",
-                    Lote = "Lote 1",
-                    QtdPessoas = 250,
-                    DataEvento = DateTime.Now.AddDays(2).ToString(),
-                    ImagemURL = "foto1.png"
-                },
-                new Evento()
-                {
-                        EventoId = 2,
-                        Tema = "Tema 2",
-                        Local = "Local 2",
-                        Lote = "Lote 2",
-                        QtdPessoas = 250,
-                        DataEvento = DateTime.Now.AddDays(2).ToString(),
-                        ImagemURL = "foto2.png"
-                },
-                new Evento()
-                {
-                    EventoId = 3,
-                    Tema = "Tema 3",
-                    Local = "Local 3",
-                    Lote = "Lote 3",
-                    QtdPessoas = 250,
-                    DataEvento = DateTime.Now.AddDays(2).ToString(),
-                    ImagemURL = "foto3.png"
-                },
-
-        };
-        public EventoController()
+        public EventoController(DataContext context)
         {
-
+            DataContext = context;
         }
 
         [HttpPost]
@@ -60,16 +29,13 @@ namespace ProEventos.Api.Controllers
         {
 
 
-            return Eventos;
+            return DataContext.Eventos;
         }
 
         [HttpGet("{id}")]
         public Evento Get(int id)
         {
-
-
-
-            return Eventos.FirstOrDefault(x => x.EventoId == id);
+            return DataContext.Eventos.FirstOrDefault(x => x.EventoId == id);
 
         }
 
